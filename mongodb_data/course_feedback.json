@@ -1,0 +1,164 @@
+[
+  {
+    "course_id": 3,
+    "student_id": 1,
+    "course_code": "MA101",
+    "course_name": "Engineering Mathematics",
+    "student_name": "Aarav Singh",
+    "rating": 4,
+    "difficulty": "Challenging",
+    "tags": [
+      "Deep Concepts",
+      "Exam Focused"
+    ],
+    "comment": "Thorough coverage of indexing, B-trees, and aggregation pipelines.",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "1a2b123a1d1f4dc1a7bad9e0"
+  },
+  {
+    "course_id": 2,
+    "student_id": 4,
+    "course_code": "CS202",
+    "course_name": "Data Structures",
+    "student_name": "Anaya Gupta",
+    "rating": 5,
+    "difficulty": "Easy",
+    "tags": [
+      "Interactive",
+      "Good Notes"
+    ],
+    "comment": "Loved the live coding demos and clear breakdown of normalization rules.",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "8705ba94e346426898b6a4f7"
+  },
+  {
+    "course_id": 6,
+    "student_id": 5,
+    "course_code": "CS304",
+    "course_name": "Engineering Physics",
+    "student_name": "Ishaan Shah",
+    "rating": 4,
+    "difficulty": "Moderate",
+    "tags": [
+      "Helpful Faculty",
+      "Practical Examples"
+    ],
+    "comment": "Very well-paced lectures with real-world schema optimization examples.",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "1f64b24b5c3c4a94b668131d"
+  },
+  {
+    "course_id": 1,
+    "student_id": 4,
+    "course_code": "CS201",
+    "course_name": "Database Management Systems",
+    "student_name": "Anaya Gupta",
+    "rating": 5,
+    "difficulty": "Challenging",
+    "tags": [
+      "Great Projects",
+      "Well Structured"
+    ],
+    "comment": "Challenging assignments, especially concurrency control and triggers, but learned a ton!",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "cc3493baa5834fb2be066e0a"
+  },
+  {
+    "course_id": 4,
+    "student_id": 5,
+    "course_code": "IT301",
+    "course_name": "Web Technologies",
+    "student_name": "Ishaan Shah",
+    "rating": 5,
+    "difficulty": "Moderate",
+    "tags": [
+      "Hands-on Labs",
+      "Clear Explanations",
+      "Industry Relevant"
+    ],
+    "comment": "The combination of SQL transactions and MongoDB document design made database concepts super clear.",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "df6692d897d246ed9ffd8c9a"
+  },
+  {
+    "course_id": 3,
+    "student_id": 4,
+    "course_code": "MA101",
+    "course_name": "Engineering Mathematics",
+    "student_name": "Anaya Gupta",
+    "rating": 4,
+    "difficulty": "Challenging",
+    "tags": [
+      "Deep Concepts",
+      "Exam Focused"
+    ],
+    "comment": "Thorough coverage of indexing, B-trees, and aggregation pipelines.",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "cde65fe893814fcd871af641"
+  },
+  {
+    "course_id": 3,
+    "student_id": 3,
+    "course_code": "MA101",
+    "course_name": "Engineering Mathematics",
+    "student_name": "Kabir Khan",
+    "rating": 5,
+    "difficulty": "Easy",
+    "tags": [
+      "Interactive",
+      "Good Notes"
+    ],
+    "comment": "Loved the live coding demos and clear breakdown of normalization rules.",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "9b7570054f91465aa05c085a"
+  },
+  {
+    "course_id": 1,
+    "student_id": 2,
+    "course_code": "CS201",
+    "course_name": "Database Management Systems",
+    "student_name": "Diya Patel",
+    "rating": 4,
+    "difficulty": "Moderate",
+    "tags": [
+      "Helpful Faculty",
+      "Practical Examples"
+    ],
+    "comment": "Very well-paced lectures with real-world schema optimization examples.",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "837955b4669f4a61a6ccf34c"
+  },
+  {
+    "course_id": 2,
+    "student_id": 1,
+    "course_code": "CS202",
+    "course_name": "Data Structures",
+    "student_name": "Aarav Singh",
+    "rating": 5,
+    "difficulty": "Challenging",
+    "tags": [
+      "Great Projects",
+      "Well Structured"
+    ],
+    "comment": "Challenging assignments, especially concurrency control and triggers, but learned a ton!",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "17f6f4544e7d4b7fae6de005"
+  },
+  {
+    "course_id": 1,
+    "student_id": 1,
+    "course_code": "CS201",
+    "course_name": "Database Management Systems",
+    "student_name": "Aarav Singh",
+    "rating": 5,
+    "difficulty": "Moderate",
+    "tags": [
+      "Hands-on Labs",
+      "Clear Explanations",
+      "Industry Relevant"
+    ],
+    "comment": "The combination of SQL transactions and MongoDB document design made database concepts super clear.",
+    "created_at": "2026-10-26T17:28:27",
+    "_id": "c181191e4cd947b09dec8eb1"
+  }
+]

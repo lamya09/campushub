@@ -1,0 +1,297 @@
+[
+  {
+    "student_id": 5,
+    "student_profile": {
+      "full_name": "Ishaan Shah",
+      "email": "ishaan@campushub.test",
+      "department": "Information Technology",
+      "year_of_study": 4
+    },
+    "academic_summary": {
+      "weighted_gpa_4_scale": 2.94,
+      "mean_score_pct": 86.0,
+      "graded_credits": 17,
+      "total_courses": 5
+    },
+    "courses": [
+      {
+        "course_code": "IT301",
+        "course_name": "Web Technologies",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "89.00",
+        "remarks": "Very good"
+      },
+      {
+        "course_code": "IT302",
+        "course_name": "Software Engineering",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "88.00",
+        "remarks": "Very strong analytical understanding"
+      },
+      {
+        "course_code": "CS304",
+        "course_name": "Engineering Physics",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "94.50",
+        "remarks": "Outstanding performance & project work"
+      },
+      {
+        "course_code": "CS301",
+        "course_name": "Database Management Systems",
+        "credits": 4,
+        "enrollment_status": "Active",
+        "score": "82.50",
+        "remarks": "Good lab and midterm performance"
+      },
+      {
+        "course_code": "CS302",
+        "course_name": "Operating Systems",
+        "credits": 4,
+        "enrollment_status": "Completed",
+        "score": "76.00",
+        "remarks": "Consistent effort, room to improve in finals"
+      }
+    ],
+    "generated_at": "2026-10-26T17:28:27",
+    "_id": "26b4cb4f28d44ff1999a5035"
+  },
+  {
+    "student_id": 4,
+    "student_profile": {
+      "full_name": "Anaya Gupta",
+      "email": "anaya@campushub.test",
+      "department": "Mathematics",
+      "year_of_study": 2
+    },
+    "academic_summary": {
+      "weighted_gpa_4_scale": 2.92,
+      "mean_score_pct": 83.71,
+      "graded_credits": 24,
+      "total_courses": 7
+    },
+    "courses": [
+      {
+        "course_code": "CS201",
+        "course_name": "Database Management Systems",
+        "credits": 4,
+        "enrollment_status": "Active",
+        "score": "85.00",
+        "remarks": "Great class participation"
+      },
+      {
+        "course_code": "CS202",
+        "course_name": "Data Structures",
+        "credits": 4,
+        "enrollment_status": "Active",
+        "score": "88.00",
+        "remarks": "Very strong analytical understanding"
+      },
+      {
+        "course_code": "MA101",
+        "course_name": "Engineering Mathematics",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "74.00",
+        "remarks": "Satisfactory"
+      },
+      {
+        "course_code": "IT301",
+        "course_name": "Web Technologies",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "91.00",
+        "remarks": "Excellent SQL and schema design"
+      },
+      {
+        "course_code": "IT302",
+        "course_name": "Software Engineering",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "68.50",
+        "remarks": "Passed; needs review on advanced topics"
+      },
+      {
+        "course_code": "CS304",
+        "course_name": "Engineering Physics",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "85.00",
+        "remarks": "Great class participation"
+      },
+      {
+        "course_code": "CS301",
+        "course_name": "Database Management Systems",
+        "credits": 4,
+        "enrollment_status": "Completed",
+        "score": "94.50",
+        "remarks": "Outstanding performance & project work"
+      }
+    ],
+    "generated_at": "2026-10-26T17:28:27",
+    "_id": "4887d33606ae470384ab792f"
+  },
+  {
+    "student_id": 3,
+    "student_profile": {
+      "full_name": "Kabir Khan",
+      "email": "kabir@campushub.test",
+      "department": "Computer Science",
+      "year_of_study": 3
+    },
+    "academic_summary": {
+      "weighted_gpa_4_scale": 2.75,
+      "mean_score_pct": 82.12,
+      "graded_credits": 12,
+      "total_courses": 4
+    },
+    "courses": [
+      {
+        "course_code": "MA101",
+        "course_name": "Engineering Mathematics",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "82.00",
+        "remarks": "Very good"
+      },
+      {
+        "course_code": "IT301",
+        "course_name": "Web Technologies",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "88.00",
+        "remarks": "Very strong analytical understanding"
+      },
+      {
+        "course_code": "IT302",
+        "course_name": "Software Engineering",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "82.50",
+        "remarks": "Good lab and midterm performance"
+      },
+      {
+        "course_code": "CS304",
+        "course_name": "Engineering Physics",
+        "credits": 3,
+        "enrollment_status": "Completed",
+        "score": "76.00",
+        "remarks": "Consistent effort, room to improve in finals"
+      }
+    ],
+    "generated_at": "2026-10-26T17:28:27",
+    "_id": "0f3a195fb1814dc78d63f953"
+  },
+  {
+    "student_id": 2,
+    "student_profile": {
+      "full_name": "Diya Patel",
+      "email": "diya@campushub.test",
+      "department": "Information Technology",
+      "year_of_study": 1
+    },
+    "academic_summary": {
+      "weighted_gpa_4_scale": 2.82,
+      "mean_score_pct": 83.0,
+      "graded_credits": 17,
+      "total_courses": 5
+    },
+    "courses": [
+      {
+        "course_code": "CS201",
+        "course_name": "Database Management Systems",
+        "credits": 4,
+        "enrollment_status": "Active",
+        "score": "76.00",
+        "remarks": "Good"
+      },
+      {
+        "course_code": "CS202",
+        "course_name": "Data Structures",
+        "credits": 4,
+        "enrollment_status": "Active",
+        "score": "91.00",
+        "remarks": "Excellent SQL and schema design"
+      },
+      {
+        "course_code": "MA101",
+        "course_name": "Engineering Mathematics",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "68.50",
+        "remarks": "Passed; needs review on advanced topics"
+      },
+      {
+        "course_code": "IT301",
+        "course_name": "Web Technologies",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "85.00",
+        "remarks": "Great class participation"
+      },
+      {
+        "course_code": "IT302",
+        "course_name": "Software Engineering",
+        "credits": 3,
+        "enrollment_status": "Completed",
+        "score": "94.50",
+        "remarks": "Outstanding performance & project work"
+      }
+    ],
+    "generated_at": "2026-10-26T17:28:27",
+    "_id": "97d7bff4deb74b91871a9ba1"
+  },
+  {
+    "student_id": 1,
+    "student_profile": {
+      "full_name": "Aarav Singh",
+      "email": "aarav@campushub.test",
+      "department": "Computer Science",
+      "year_of_study": 2
+    },
+    "academic_summary": {
+      "weighted_gpa_4_scale": 3.36,
+      "mean_score_pct": 85.25,
+      "graded_credits": 14,
+      "total_courses": 4
+    },
+    "courses": [
+      {
+        "course_code": "CS201",
+        "course_name": "Database Management Systems",
+        "credits": 4,
+        "enrollment_status": "Active",
+        "score": "90.00",
+        "remarks": "Re-evaluated after quiz bonus"
+      },
+      {
+        "course_code": "CS202",
+        "course_name": "Data Structures",
+        "credits": 4,
+        "enrollment_status": "Active",
+        "score": "92.50",
+        "remarks": "Re-evaluated after quiz bonus"
+      },
+      {
+        "course_code": "MA101",
+        "course_name": "Engineering Mathematics",
+        "credits": 3,
+        "enrollment_status": "Active",
+        "score": "82.50",
+        "remarks": "Good lab and midterm performance"
+      },
+      {
+        "course_code": "IT301",
+        "course_name": "Web Technologies",
+        "credits": 3,
+        "enrollment_status": "Completed",
+        "score": "76.00",
+        "remarks": "Consistent effort, room to improve in finals"
+      }
+    ],
+    "generated_at": "2026-10-26T17:28:27",
+    "_id": "d028caa9b7c84a32b2b59a78"
+  }
+]

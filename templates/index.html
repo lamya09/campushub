@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusHub — University Management System</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div class="app-wrapper">
+
+  <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h1>🏛️ CampusHub</h1>
+      <p>University Management</p>
+    </div>
+
+    <nav>
+      <div class="nav-section-label">Main</div>
+      <div class="nav-item active" data-section="sec-dashboard">
+        <span class="icon">📊</span><span>Dashboard</span>
+      </div>
+
+      <div class="nav-section-label">Academic</div>
+      <div class="nav-item" data-section="sec-students">
+        <span class="icon">👩‍🎓</span><span>Students</span>
+      </div>
+      <div class="nav-item" data-section="sec-faculty">
+        <span class="icon">👨‍🏫</span><span>Faculty</span>
+      </div>
+      <div class="nav-item" data-section="sec-courses">
+        <span class="icon">📚</span><span>Courses</span>
+      </div>
+
+      <div class="nav-section-label">Records</div>
+      <div class="nav-item" data-section="sec-enrollments">
+        <span class="icon">📋</span><span>Enrollments</span>
+      </div>
+      <div class="nav-item" data-section="sec-grades">
+        <span class="icon">📝</span><span>Grades</span>
+      </div>
+
+      <div class="nav-section-label">Analytics</div>
+      <div class="nav-item" data-section="sec-reports">
+        <span class="icon">📈</span><span>Reports</span>
+      </div>
+
+      <div class="nav-section-label">Admin &amp; Hybrid DB</div>
+      <div class="nav-item" data-section="sec-nosql">
+        <span class="icon">🍃</span><span>NoSQL Store</span>
+      </div>
+      <div class="nav-item" data-section="sec-users">
+        <span class="icon">🛡️</span><span>Users</span>
+      </div>
+      <div class="nav-item" data-section="sec-audit">
+        <span class="icon">⚡</span><span>Audit Trail</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer" style="display:flex;flex-direction:column;gap:8px;">
+      <span>👤 {{ username }}</span>
+      <a href="/logout" style="color:rgba(255,255,255,.5);font-size:.75rem;text-decoration:none;">🚪 Logout</a>
+      <span style="margin-top:4px;">CampusHub v2.0 · MySQL + MongoDB</span>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <div class="main-content">
+    <header class="topbar">
+      <h2>🏛️ Dashboard</h2>
+      <div class="topbar-right">
+        <span class="badge badge-success">🟢 MySQL 8.0</span>
+        <span class="badge badge-info">🍃 MongoDB Active</span>
+      </div>
+    </header>
+
+    <main class="content-area">
+
+      <!-- ═══════════ DASHBOARD ═══════════ -->
+      <section id="sec-dashboard" class="section active">
+        <div class="welcome-banner">
+          <div>
+            <h2>Academic Operations Overview</h2>
+            <p>CampusHub University Registry · Real-Time Enrollment, Grading &amp; Audit Telemetry</p>
+          </div>
+          <div class="welcome-actions">
+            <button class="btn btn-hero" onclick="navigate('sec-students')">+ Student</button>
+            <button class="btn btn-hero" onclick="navigate('sec-faculty')">+ Faculty</button>
+            <button class="btn btn-hero" onclick="navigate('sec-courses')">+ Course</button>
+            <button class="btn btn-hero" onclick="navigate('sec-enrollments')">Enroll Student</button>
+            <button class="btn btn-hero" onclick="navigate('sec-grades')">Enter Grades</button>
+            <button class="btn btn-hero" onclick="navigate('sec-users')">Manage Users</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">👩‍🎓</div>
+            <div class="stat-info">
+              <div class="label">Enrolled Students</div>
+              <div class="value" id="stat-students">—</div>
+              <div class="subtext">Active university roster</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">📚</div>
+            <div class="stat-info">
+              <div class="label">Active Courses</div>
+              <div class="value" id="stat-courses">—</div>
+              <div class="subtext">Across 5 faculty members</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">📋</div>
+            <div class="stat-info">
+              <div class="label">Course Registrations</div>
+              <div class="value" id="stat-enrollments">—</div>
+              <div class="subtext">Current term active seats</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">📊</div>
+            <div class="stat-info">
+              <div class="label">Mean Cohort Score</div>
+              <div class="value" id="stat-avg-grade">—</div>
+              <div class="subtext">University-wide average</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue">🛡️</div>
+            <div class="stat-info">
+              <div class="label">Portal Accounts</div>
+              <div class="value" id="stat-users">—</div>
+              <div class="subtext">Admin, faculty &amp; student logins</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2x2 Live Academic Bento Grid -->
+        <div class="dashboard-bento">
+
+          <!-- Left 1: Course Capacity & Seat Utilization -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Course Seat Utilization</h3>
+                <span class="card-subtitle">Live enrollment vs. room capacity across departments</span>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="navigate('sec-courses')">All Courses →</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Course</th><th>Faculty</th><th>Utilization</th></tr>
+                </thead>
+                <tbody id="dash-courses-tbody">
+                  <tr><td colspan="3" class="loading-row"><div class="spinner"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Right 1: Honor Roll (Top Students by Weighted GPA) -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Dean's List &amp; Top Performers</h3>
+                <span class="card-subtitle">Ranked by cumulative weighted GPA (4.0 scale)</span>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="navigate('sec-reports')">Full Report →</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Rank</th><th>Student</th><th>GPA (4.0)</th><th>Avg</th></tr>
+                </thead>
+                <tbody id="dash-top-students-tbody">
+                  <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Left 2: Department Academic Breakdown -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Departmental Academic Pulse</h3>
+                <span class="card-subtitle">Headcount, active registrations, and mean score by department</span>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="navigate('sec-students')">Directory →</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Department</th><th>Students</th><th>Enrollments</th><th>Mean Score</th></tr>
+                </thead>
+                <tbody id="dash-dept-tbody">
+                  <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Right 2: Recent Student Enrollments -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Recent Course Enrollments</h3>
+                <span class="card-subtitle">Latest student course registrations and status</span>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="navigate('sec-enrollments')">All Enrollments →</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Student</th><th>Course</th><th>Date</th><th>Status</th></tr>
+                </thead>
+                <tbody id="dash-enrollments-tbody">
+                  <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═══════════ STUDENTS ═══════════ -->
+      <section id="sec-students" class="section">
+        <div class="section-header">
+          <h2>Students</h2>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <div class="search-bar">
+              <input type="text" id="student-search" placeholder="Search by name, email, dept…" />
+              <button class="btn btn-outline" id="student-search-btn">🔍 Search</button>
+            </div>
+            <button class="btn btn-primary" id="btn-add-student">➕ Add Student</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Name</th><th>Email</th>
+                  <th>Department</th><th>Year</th><th>Joined</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="students-tbody">
+                <tr><td colspan="7" class="loading-row"><div class="spinner"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ FACULTY ═══════════ -->
+      <section id="sec-faculty" class="section">
+        <div class="section-header">
+          <h2>Faculty</h2>
+          <button class="btn btn-primary" id="btn-add-faculty">➕ Add Faculty</button>
+        </div>
+
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Email</th><th>Department</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="faculty-tbody">
+                <tr><td colspan="5" class="loading-row"><div class="spinner"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ COURSES ═══════════ -->
+      <section id="sec-courses" class="section">
+        <div class="section-header">
+          <h2>Courses</h2>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <div class="search-bar">
+              <input type="text" id="course-search" placeholder="Search by name, code, dept…" />
+              <button class="btn btn-outline" id="course-search-btn">🔍 Search</button>
+            </div>
+            <button class="btn btn-primary" id="btn-add-course">➕ Add Course</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Code</th><th>Course Name</th><th>Department</th>
+                  <th>Credits</th><th>Faculty</th><th>Enrolled / Cap</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="courses-tbody">
+                <tr><td colspan="8" class="loading-row"><div class="spinner"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ ENROLLMENTS ═══════════ -->
+      <section id="sec-enrollments" class="section">
+        <div class="section-header"><h2>Enrollments</h2></div>
+
+        <!-- Enroll form card -->
+        <div class="card" style="margin-bottom:22px;">
+          <div class="card-header"><h3>Enroll a Student</h3></div>
+          <div class="card-body">
+            <form id="enrollment-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Student <span class="required">*</span></label>
+                  <select id="e-student" class="form-select" required>
+                    <option value="">— Select Student —</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Course <span class="required">*</span></label>
+                  <select id="e-course" class="form-select" required>
+                    <option value="">— Select Course —</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Enrollment Date</label>
+                  <input type="date" id="e-date" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Status</label>
+                  <select id="e-status" class="form-select">
+                    <option value="Active">Active</option>
+                    <option value="Dropped">Dropped</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-accent">📋 Enroll Student</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Enrollment list -->
+        <div class="card">
+          <div class="card-header">
+            <h3>All Enrollments</h3>
+            <button class="btn btn-outline btn-sm" onclick="loadEnrollments()">🔄 Refresh</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Student</th><th>Course</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="enrollments-tbody">
+                <tr><td colspan="6" class="loading-row"><div class="spinner"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ GRADES ═══════════ -->
+      <section id="sec-grades" class="section">
+        <div class="section-header"><h2>Grades</h2></div>
+
+        <!-- Grade entry card -->
+        <div class="card" style="margin-bottom:22px;">
+          <div class="card-header"><h3>Enter Grade</h3></div>
+          <div class="card-body">
+            <form id="grade-form">
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label class="form-label">Enrollment <span class="required">*</span></label>
+                  <select id="g-enrollment" class="form-select" required>
+                    <option value="">— Select Enrollment —</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Score (0–100) <span class="required">*</span></label>
+                  <input type="number" id="g-score" class="form-control" min="0" max="100" step="0.01" placeholder="e.g. 87.5" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Remarks</label>
+                  <input type="text" id="g-remarks" class="form-control" placeholder="e.g. Excellent performance" />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success">📝 Save Grade</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Grades table -->
+        <div class="card">
+          <div class="card-header">
+            <h3>All Grades</h3>
+            <button class="btn btn-outline btn-sm" onclick="loadGrades()">🔄 Refresh</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Student</th><th>Course</th><th>Score</th><th>Remarks</th><th>Updated</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="grades-tbody">
+                <tr><td colspan="7" class="loading-row"><div class="spinner"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ REPORTS ═══════════ -->
+      <section id="sec-reports" class="section">
+        <div class="section-header"><h2>Reports &amp; Analytics</h2></div>
+
+        <div class="report-tabs">
+          <button class="report-tab active" data-report="enrollment-summary">📋 Enrollment Summary</button>
+          <button class="report-tab" data-report="student-course-details">📖 Student–Course Details</button>
+          <button class="report-tab" data-report="top-students">🏆 Top Students</button>
+          <button class="report-tab" data-report="department-stats">🏛️ Department Stats</button>
+          <button class="report-tab" data-report="no-enrollments">⚠️ Without Enrollments</button>
+        </div>
+
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead id="report-thead"></thead>
+              <tbody id="report-tbody">
+                <tr><td colspan="10" class="loading-row"><div class="spinner"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ USERS ═══════════ -->
+      <section id="sec-users" class="section">
+        <div class="section-header">
+          <h2>User Management</h2>
+          <button class="btn btn-primary" onclick="openUserModal()">➕ Add User</button>
+        </div>
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Username</th><th>Role</th>
+                  <th>Linked ID</th><th>Created</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <tr><td colspan="6" class="loading-row"><div class="spinner"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ AUDIT TRAIL ═══════════ -->
+      <section id="sec-audit" class="section">
+        <div class="section-header">
+          <div>
+            <h2>Database Audit Trail (MySQL Triggers)</h2>
+            <p style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Automatically captured by MySQL AFTER UPDATE and AFTER DELETE triggers on Grades and Enrollments.</p>
+          </div>
+          <button class="btn btn-outline" onclick="loadAuditLogs()">🔄 Refresh</button>
+        </div>
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Log ID</th><th>Table</th><th>Action</th>
+                  <th>Record ID</th><th>Old Value</th><th>New Value</th><th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="audit-tbody">
+                <tr><td colspan="7" class="loading-row"><div class="spinner"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ MONGODB NOSQL STORE ═══════════ -->
+      <section id="sec-nosql" class="section">
+        <div class="section-header">
+          <div>
+            <h2>MongoDB Document Store (`CampusHub_NoSQL`)</h2>
+            <p style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Hybrid Polyglot Persistence — Course Announcements, Student Course Reviews, and Nested Session Documents.</p>
+          </div>
+          <button class="btn btn-outline" onclick="loadNoSQLOverview()">🔄 Refresh Collections</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon green">📢</div>
+            <div class="stat-info">
+              <div class="label">course_announcements</div>
+              <div class="value" id="nosql-cnt-ann">—</div>
+              <div class="subtext">Faculty announcement docs</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">⭐</div>
+            <div class="stat-info">
+              <div class="label">course_feedback</div>
+              <div class="value" id="nosql-cnt-fb">—</div>
+              <div class="subtext">Student review &amp; rating docs</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue">📅</div>
+            <div class="stat-info">
+              <div class="label">attendance_sessions</div>
+              <div class="value" id="nosql-cnt-att">—</div>
+              <div class="subtext">Nested lecture session docs</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">🎓</div>
+            <div class="stat-info">
+              <div class="label">student_transcripts</div>
+              <div class="value" id="nosql-cnt-tr">—</div>
+              <div class="subtext">Cached transcript documents</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-bento">
+          <!-- Announcements Table -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Course Announcements (`course_announcements`)</h3>
+                <span class="card-subtitle">Published by Faculty with priority &amp; tag arrays</span>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Course</th><th>Announcement</th><th>Priority &amp; Tags</th><th>Action</th></tr>
+                </thead>
+                <tbody id="nosql-ann-tbody">
+                  <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Course Feedback Table -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Student Course Reviews (`course_feedback`)</h3>
+                <span class="card-subtitle">1–5 Star Ratings, difficulty, tags &amp; student reviews</span>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Course</th><th>Student</th><th>Rating</th><th>Review &amp; Tags</th></tr>
+                </thead>
+                <tbody id="nosql-fb-tbody">
+                  <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sample Raw MongoDB Document Inspector -->
+        <div class="card" style="margin-top:18px;">
+          <div class="card-header">
+            <div>
+              <h3>BSON / JSON Document Structure Inspector</h3>
+              <span class="card-subtitle">Live nested documents stored in MongoDB collections</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <pre id="nosql-json-preview" class="mono" style="background:#0f172a;color:#e2e8f0;padding:16px;border-radius:8px;font-size:.78rem;max-height:300px;overflow:auto;">Loading MongoDB documents…</pre>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div><!-- .main-content -->
+</div><!-- .app-wrapper -->
+
+
+<!-- ═══════════════════ MODALS ═══════════════════ -->
+
+<!-- Student Modal -->
+<div id="student-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="student-modal-title">Add Student</h3>
+      <button class="modal-close" onclick="closeModal('student-modal')">×</button>
+    </div>
+    <form id="student-form">
+      <div class="modal-body">
+        <input type="hidden" id="student-id-hidden" />
+        <div class="form-group">
+          <label class="form-label">Full Name <span class="required">*</span></label>
+          <input type="text" id="s-full-name" class="form-control" placeholder="e.g. Priya Sharma" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="required">*</span></label>
+          <input type="email" id="s-email" class="form-control" placeholder="e.g. priya@university.edu" required />
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Department <span class="required">*</span></label>
+            <input type="text" id="s-department" class="form-control" placeholder="e.g. Computer Science" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Year of Study <span class="required">*</span></label>
+            <select id="s-year" class="form-select" required>
+              <option value="">— Select —</option>
+              <option value="1">Year 1</option>
+              <option value="2">Year 2</option>
+              <option value="3">Year 3</option>
+              <option value="4">Year 4</option>
+              <option value="5">Year 5</option>
+              <option value="6">Year 6</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('student-modal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save Student</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Faculty Modal -->
+<div id="faculty-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="faculty-modal-title">Add Faculty Member</h3>
+      <button class="modal-close" onclick="closeModal('faculty-modal')">×</button>
+    </div>
+    <form id="faculty-form">
+      <div class="modal-body">
+        <input type="hidden" id="faculty-id-hidden" />
+        <div class="form-group">
+          <label class="form-label">Full Name <span class="required">*</span></label>
+          <input type="text" id="f-full-name" class="form-control" placeholder="e.g. Dr. Arjun Mehta" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="required">*</span></label>
+          <input type="email" id="f-email" class="form-control" placeholder="e.g. arjun@university.edu" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Department <span class="required">*</span></label>
+          <input type="text" id="f-department" class="form-control" placeholder="e.g. Mathematics" required />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('faculty-modal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save Faculty</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Course Modal -->
+<div id="course-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="course-modal-title">Add Course</h3>
+      <button class="modal-close" onclick="closeModal('course-modal')">×</button>
+    </div>
+    <form id="course-form">
+      <div class="modal-body">
+        <input type="hidden" id="course-id-hidden" />
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Course Code <span class="required">*</span></label>
+            <input type="text" id="c-code" class="form-control" placeholder="e.g. CS301" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Credits <span class="required">*</span></label>
+            <input type="number" id="c-credits" class="form-control" min="1" max="10" value="3" required />
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Course Name <span class="required">*</span></label>
+            <input type="text" id="c-name" class="form-control" placeholder="e.g. Data Structures and Algorithms" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Department <span class="required">*</span></label>
+            <input type="text" id="c-dept" class="form-control" placeholder="e.g. Computer Science" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Capacity <span class="required">*</span></label>
+            <input type="number" id="c-capacity" class="form-control" min="1" value="30" required />
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Assign Faculty</label>
+            <select id="c-faculty" class="form-select">
+              <option value="">— None —</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('course-modal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save Course</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Grade Edit Modal -->
+<div id="grade-edit-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Update Grade</h3>
+      <button class="modal-close" onclick="closeModal('grade-edit-modal')">×</button>
+    </div>
+    <form id="grade-edit-form">
+      <div class="modal-body">
+        <input type="hidden" id="edit-grade-id" />
+        <div class="form-group">
+          <label class="form-label">Score (0–100) <span class="required">*</span></label>
+          <input type="number" id="edit-grade-score" class="form-control" min="0" max="100" step="0.01" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Remarks</label>
+          <input type="text" id="edit-grade-remarks" class="form-control" placeholder="Optional remarks" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('grade-edit-modal')">Cancel</button>
+        <button type="submit" class="btn btn-success">💾 Update Grade</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- User Modal -->
+<div id="user-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Create User Account</h3>
+      <button class="modal-close" onclick="closeModal('user-modal')">×</button>
+    </div>
+    <form id="user-form">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Username <span class="required">*</span></label>
+            <input type="text" id="u-username" class="form-control" placeholder="e.g. john.doe" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Role <span class="required">*</span></label>
+            <select id="u-role" class="form-select" onchange="toggleLinkedId()" required>
+              <option value="">— Select role —</option>
+              <option value="admin">Admin</option>
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Password <span class="required">*</span></label>
+            <input type="password" id="u-password" class="form-control" placeholder="Min 6 characters" required />
+          </div>
+          <div class="form-group full" id="linked-id-group" style="display:none;">
+            <label class="form-label" id="linked-id-label">Linked Student/Faculty ID <span class="required">*</span></label>
+            <input type="number" id="u-linked-id" class="form-control" placeholder="Enter the student_id or faculty_id" min="1" />
+            <small style="color:var(--text-muted);">Link to an existing record so this user can see their own data in the portal.</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('user-modal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Create User</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div id="reset-pw-modal" class="modal-overlay">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <h3>Reset Password</h3>
+      <button class="modal-close" onclick="closeModal('reset-pw-modal')">×</button>
+    </div>
+    <form id="reset-pw-form">
+      <div class="modal-body">
+        <input type="hidden" id="reset-uid" />
+        <div class="form-group">
+          <label class="form-label">New Password <span class="required">*</span></label>
+          <input type="password" id="reset-pw-value" class="form-control" placeholder="Min 6 characters" required />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('reset-pw-modal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">🔑 Reset Password</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

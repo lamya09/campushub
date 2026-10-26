@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusHub — Student Portal</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    /* Student portal overrides */
+    :root { --primary: #145332; --primary-dk: #0b331d; --accent: #c67d18; }
+
+    .portal-topbar {
+      background: linear-gradient(135deg, var(--primary-dk) 0%, var(--primary) 100%);
+      color: #fff;
+      padding: 0 30px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .portal-topbar .brand { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; }
+    .portal-topbar .brand span { font-family: var(--font-sans); opacity:.7; font-weight:500; margin-left:8px; font-size:.82rem; }
+    .portal-topbar .user-info { display:flex; align-items:center; gap:14px; font-size:.85rem; }
+    .portal-topbar .username-badge {
+      background:rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.2);
+      padding:4px 12px;
+      border-radius:6px;
+      font-weight: 600;
+    }
+
+    .portal-nav {
+      background:#fff;
+      border-bottom:1px solid var(--border);
+      padding:0 30px;
+      display:flex;
+      gap:4px;
+      overflow-x:auto;
+    }
+    .portal-nav-item {
+      padding:12px 16px;
+      font-size:.85rem;
+      font-weight:600;
+      color:var(--text-muted);
+      cursor:pointer;
+      border-bottom:2.5px solid transparent;
+      transition:all .18s;
+      white-space:nowrap;
+    }
+    .portal-nav-item:hover { color:var(--primary); }
+    .portal-nav-item.active { color:var(--primary); border-bottom-color:var(--primary); }
+
+    .portal-content { padding:24px 30px 36px; max-width:1240px; margin:0 auto; }
+
+    .portal-section { display:none; }
+    .portal-section.active { display:block; }
+
+    .welcome-card {
+      background:linear-gradient(125deg,var(--primary-dk) 0%,var(--primary) 65%,#1f7a4a 100%);
+      border-radius:10px;
+      padding:20px 26px;
+      color:#fff;
+      margin-bottom:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:16px;
+    }
+    .welcome-card h2 { font-family: var(--font-serif); font-size:1.4rem; margin-bottom:3px; }
+    .welcome-card p  { opacity:.82; font-size:.84rem; }
+    .welcome-card .welcome-actions { display:flex; align-items:center; gap:10px; }
+
+    .grade-letter {
+      display:inline-block;
+      width:32px; height:32px;
+      border-radius:50%;
+      text-align:center;
+      line-height:32px;
+      font-weight:800;
+      font-size:.85rem;
+    }
+    .gl-a { background:#e8f5e9; color:#2e7d32; }
+    .gl-b { background:#e3f2fd; color:#0277bd; }
+    .gl-c { background:#fff8e1; color:#e65100; }
+    .gl-d { background:#ffebee; color:#c62828; }
+    .gl-f { background:#fce4ec; color:#880e4f; }
+
+    /* Printable Transcript Modal */
+    .transcript-box {
+      border: 2px solid #1a3a6b;
+      border-radius: 10px;
+      padding: 28px;
+      background: #fff;
+      color: #1e293b;
+    }
+    .transcript-header {
+      text-align: center;
+      border-bottom: 2px solid #1a3a6b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .transcript-header h2 { color: #1a3a6b; font-size: 1.4rem; margin-bottom: 4px; }
+    .transcript-header p { color: #64748b; font-size: .85rem; }
+    .transcript-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px 24px;
+      background: #f8fafc;
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: .88rem;
+    }
+    .transcript-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 2px solid #1a3a6b;
+      margin-top: 18px;
+      padding-top: 14px;
+      font-size: .95rem;
+      font-weight: 700;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #transcript-modal, #transcript-modal * { visibility: visible; }
+      #transcript-modal {
+        position: fixed;
+        left: 0; top: 0;
+        width: 100%; height: auto;
+        background: #fff !important;
+        padding: 0 !important;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+<div id="toast-container"></div>
+
+<!-- Top bar -->
+<header class="portal-topbar">
+  <div class="brand">🏛️ CampusHub <span>Student Portal</span></div>
+  <div class="user-info">
+    <span class="username-badge">👩‍🎓 {{ username }}</span>
+    <a href="/logout" class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff;border:none;">🚪 Logout</a>
+  </div>
+</header>
+
+<!-- Portal nav -->
+<nav class="portal-nav">
+  <div class="portal-nav-item active" data-tab="tab-overview">📊 Overview</div>
+  <div class="portal-nav-item" data-tab="tab-catalog">🔍 Browse Courses</div>
+  <div class="portal-nav-item" data-tab="tab-courses">📚 My Courses</div>
+  <div class="portal-nav-item" data-tab="tab-grades">📝 My Grades &amp; GPA</div>
+  <div class="portal-nav-item" data-tab="tab-attendance">📅 Attendance</div>
+  <div class="portal-nav-item" data-tab="tab-nosql">📢 Announcements &amp; Reviews (NoSQL)</div>
+</nav>
+
+<div class="portal-content">
+
+  <!-- ── Overview ── -->
+  <div id="tab-overview" class="portal-section active">
+    <div class="welcome-card">
+      <div>
+        <h2 id="s-welcome-name">Welcome!</h2>
+        <p id="s-dept-year">Loading…</p>
+      </div>
+      <div class="welcome-actions">
+        <button class="btn" style="background:#fff;color:var(--primary);font-weight:700;" onclick="openTranscriptModal()">
+          🖨️ Official Transcript
+        </button>
+      </div>
+    </div>
+
+    <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));">
+      <div class="stat-card">
+        <div class="stat-icon blue">📚</div>
+        <div class="stat-info">
+          <div class="label">Active Enrollments</div>
+          <div class="value" id="s-stat-active">—</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">🎓</div>
+        <div class="stat-info">
+          <div class="label">Weighted GPA (4.0)</div>
+          <div class="value" id="s-stat-gpa">—</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon purple">📊</div>
+        <div class="stat-info">
+          <div class="label">Average Score</div>
+          <div class="value" id="s-stat-avg">—</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange">📅</div>
+        <div class="stat-info">
+          <div class="label">Overall Attendance</div>
+          <div class="value" id="s-stat-attendance">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2-Column Student Overview Bento -->
+    <div class="dashboard-bento">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3>Academic Performance Summary</h3>
+            <span class="card-subtitle">Grades, credits, and 4.0 scale grade points</span>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="openTranscriptModal()">🖨️ Transcript</button>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Course</th><th>Credits</th><th>Score</th><th>Letter</th><th>GP</th></tr>
+            </thead>
+            <tbody id="s-overview-grades">
+              <tr><td colspan="5" class="loading-row"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3>Attendance &amp; Course Standing</h3>
+            <span class="card-subtitle">75% minimum attendance required per course</span>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Course</th><th>Faculty</th><th>Status</th><th>Attendance</th></tr>
+            </thead>
+            <tbody id="s-overview-courses">
+              <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Browse Courses (Self-Service Catalog) ── -->
+  <div id="tab-catalog" class="portal-section">
+    <div class="section-header" style="margin-bottom:20px;">
+      <div>
+        <h2>Course Catalog — Self-Service Enrollment</h2>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Browse available university courses, check open seats, and enroll or drop directly.</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="loadStudentCatalog()">🔄 Refresh</button>
+    </div>
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th><th>Course Name</th><th>Department</th>
+              <th>Credits</th><th>Faculty</th><th>Seats (Enrolled / Cap)</th><th>Status / Action</th>
+            </tr>
+          </thead>
+          <tbody id="s-catalog-tbody">
+            <tr><td colspan="7" class="loading-row"><div class="spinner"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── My Courses ── -->
+  <div id="tab-courses" class="portal-section">
+    <div class="section-header" style="margin-bottom:20px;">
+      <h2>My Enrolled Courses</h2>
+      <button class="btn btn-outline btn-sm" onclick="loadStudentCourses()">🔄 Refresh</button>
+    </div>
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Course Code</th><th>Course Name</th><th>Department</th>
+              <th>Credits</th><th>Faculty</th><th>Attendance</th><th>Enrolled On</th><th>Status</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="s-courses-tbody">
+            <tr><td colspan="9" class="loading-row"><div class="spinner"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── My Grades & GPA ── -->
+  <div id="tab-grades" class="portal-section">
+    <div class="section-header" style="margin-bottom:20px;">
+      <h2>My Grades &amp; Transcript</h2>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-primary btn-sm" onclick="openTranscriptModal()">🖨️ Download / Print Official Transcript</button>
+        <button class="btn btn-outline btn-sm" onclick="loadStudentGrades()">🔄 Refresh</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Course Code</th><th>Course Name</th><th>Credits</th>
+              <th>Status</th><th>Score</th><th>Grade</th><th>GP (4.0)</th><th>Remarks</th><th>Updated</th>
+            </tr>
+          </thead>
+          <tbody id="s-grades-tbody">
+            <tr><td colspan="9" class="loading-row"><div class="spinner"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Attendance ── -->
+  <div id="tab-attendance" class="portal-section">
+    <div class="section-header" style="margin-bottom:20px;">
+      <div>
+        <h2>My Attendance Tracker</h2>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Minimum 75% attendance is required in each course.</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="loadStudentAttendance()">🔄 Refresh</button>
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-header"><h3>📊 Attendance by Course</h3></div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Course Code</th><th>Course Name</th><th>Total Sessions</th>
+              <th>Present</th><th>Late</th><th>Absent</th><th>Attendance %</th>
+            </tr>
+          </thead>
+          <tbody id="s-att-summary-tbody">
+            <tr><td colspan="7" class="loading-row"><div class="spinner"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>🗓️ Recent Session Logs</h3></div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Course</th><th>Status</th><th>Remarks</th></tr>
+          </thead>
+          <tbody id="s-att-records-tbody">
+            <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Announcements & Course Reviews (MongoDB NoSQL) ── -->
+  <div id="tab-nosql" class="portal-section">
+    <div class="section-header" style="margin-bottom:18px;">
+      <div>
+        <h2>Course Announcements &amp; Reviews (MongoDB)</h2>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Read faculty announcements for your enrolled courses and submit course feedback into MongoDB.</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="loadStudentNoSQLFeed()">🔄 Refresh</button>
+    </div>
+
+    <div class="dashboard-bento">
+      <!-- Left: Announcements Feed -->
+      <div class="card">
+        <div class="card-header">
+          <h3>📢 Course Announcements</h3>
+          <span class="badge badge-info">🍃 MongoDB: course_announcements</span>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Course &amp; Faculty</th><th>Announcement</th><th>Priority &amp; Tags</th></tr>
+            </thead>
+            <tbody id="s-ann-tbody">
+              <tr><td colspan="3" class="loading-row"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right: Submit Course Review Form -->
+      <div class="card">
+        <div class="card-header">
+          <h3>⭐ Rate &amp; Review an Enrolled Course</h3>
+          <span class="badge badge-info">🍃 MongoDB: course_feedback</span>
+        </div>
+        <div class="card-body">
+          <form id="s-fb-form">
+            <div class="form-group">
+              <label class="form-label">Course <span class="required">*</span></label>
+              <select id="s-fb-course" class="form-select" required>
+                <option value="">— Select your course —</option>
+              </select>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Star Rating <span class="required">*</span></label>
+                <select id="s-fb-rating" class="form-select" required>
+                  <option value="5">⭐⭐⭐⭐⭐ (5 — Excellent)</option>
+                  <option value="4">⭐⭐⭐⭐ (4 — Very Good)</option>
+                  <option value="3">⭐⭐⭐ (3 — Good)</option>
+                  <option value="2">⭐⭐ (2 — Fair)</option>
+                  <option value="1">⭐ (1 — Needs Work)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Difficulty</label>
+                <select id="s-fb-difficulty" class="form-select">
+                  <option value="Moderate">Moderate</option>
+                  <option value="Easy">Easy</option>
+                  <option value="Challenging">Challenging</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tags (comma-separated)</label>
+              <input type="text" id="s-fb-tags" class="form-control" value="Hands-on, Clear Lectures" placeholder="e.g. Practical Labs, Great Faculty" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your Review <span class="required">*</span></label>
+              <textarea id="s-fb-comment" class="form-control" placeholder="Share your experience with the lectures, labs, and course content…" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">⭐ Submit Review to MongoDB</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course Reviews Table -->
+    <div class="card" style="margin-top:18px;">
+      <div class="card-header">
+        <h3>💬 Recent Student Reviews for Your Courses</h3>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Course</th><th>Student</th><th>Rating</th><th>Review &amp; Tags</th></tr>
+          </thead>
+          <tbody id="s-fb-tbody">
+            <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .portal-content -->
+
+<!-- Official Transcript Modal -->
+<div id="transcript-modal" class="modal-overlay">
+  <div class="modal" style="max-width:780px;width:95%;">
+    <div class="modal-header no-print">
+      <h3>🎓 Official Academic Transcript</h3>
+      <button class="modal-close" onclick="closeTranscriptModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="transcript-box" id="transcript-printable">
+        <div class="transcript-header">
+          <h2>🏛️ CAMPUSHUB UNIVERSITY</h2>
+          <p>Official Academic Transcript &amp; Grade Report</p>
+        </div>
+        <div class="transcript-meta">
+          <div><strong>Student Name:</strong> <span id="tr-name">—</span></div>
+          <div><strong>Student ID:</strong> #<span id="tr-id">—</span></div>
+          <div><strong>Department:</strong> <span id="tr-dept">—</span></div>
+          <div><strong>Year of Study:</strong> Year <span id="tr-year">—</span></div>
+          <div><strong>Email:</strong> <span id="tr-email">—</span></div>
+          <div><strong>Date Issued:</strong> <span id="tr-date">—</span></div>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th><th>Course Title</th><th>Credits</th>
+                <th>Status</th><th>Score</th><th>Grade</th><th>Grade Points</th>
+              </tr>
+            </thead>
+            <tbody id="tr-tbody"></tbody>
+          </table>
+        </div>
+        <div class="transcript-summary">
+          <div>Graded Credits: <span id="tr-credits">0</span></div>
+          <div>Average Score: <span id="tr-avg">—</span></div>
+          <div style="color:#1a3a6b;font-size:1.1rem;">Cumulative Weighted GPA: <span id="tr-gpa">—</span> / 4.00</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer no-print">
+      <button type="button" class="btn btn-outline" onclick="closeTranscriptModal()">Close</button>
+      <button type="button" class="btn btn-primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/student.js"></script>
+</body>
+</html>

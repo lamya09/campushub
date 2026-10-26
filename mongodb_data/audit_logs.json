@@ -1,0 +1,22 @@
+[
+  {
+    "_id": "eca6733e9d894ea4baeceb68",
+    "table_name": "Grades",
+    "action_type": "UPDATE",
+    "record_id": 1,
+    "old_value": "enrollment_id=1, score=88.50, remarks=Very good",
+    "new_value": "enrollment_id=1, score=90.00, remarks=Re-evaluated after quiz bonus",
+    "actor": "mysql_trigger",
+    "changed_at": "2026-10-26 11:44:15"
+  },
+  {
+    "_id": "55d84192b0cb4029a55d88f1",
+    "table_name": "Grades",
+    "action_type": "UPDATE",
+    "record_id": 2,
+    "old_value": "enrollment_id=2, score=91.00, remarks=Excellent",
+    "new_value": "enrollment_id=2, score=92.50, remarks=Re-evaluated after quiz bonus",
+    "actor": "mysql_trigger",
+    "changed_at": "2026-10-26 11:44:15"
+  }
+]

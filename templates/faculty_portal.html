@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusHub — Faculty Portal</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    :root { --primary: #3b1e54; --primary-dk: #241134; --accent: #c67d18; }
+
+    .portal-topbar {
+      background: linear-gradient(135deg, var(--primary-dk) 0%, var(--primary) 100%);
+      color: #fff;
+      padding: 0 30px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .portal-topbar .brand { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; }
+    .portal-topbar .brand span { font-family: var(--font-sans); opacity:.7; font-weight:500; margin-left:8px; font-size:.82rem; }
+    .portal-topbar .user-info { display:flex; align-items:center; gap:14px; font-size:.85rem; }
+    .portal-topbar .username-badge {
+      background:rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.2);
+      padding:4px 12px;
+      border-radius:6px;
+      font-weight: 600;
+    }
+
+    .portal-nav {
+      background:#fff;
+      border-bottom:1px solid var(--border);
+      padding:0 30px;
+      display:flex;
+      gap:4px;
+      overflow-x:auto;
+    }
+    .portal-nav-item {
+      padding:12px 16px;
+      font-size:.85rem;
+      font-weight:600;
+      color:var(--text-muted);
+      cursor:pointer;
+      border-bottom:2.5px solid transparent;
+      transition:all .18s;
+      white-space:nowrap;
+    }
+    .portal-nav-item:hover { color:var(--primary); }
+    .portal-nav-item.active { color:var(--primary); border-bottom-color:var(--primary); }
+
+    .portal-content { padding:24px 30px 36px; max-width:1240px; margin:0 auto; }
+    .portal-section { display:none; }
+    .portal-section.active { display:block; }
+
+    .welcome-card {
+      background:linear-gradient(125deg,var(--primary-dk) 0%,var(--primary) 65%,#572c7a 100%);
+      border-radius:10px;
+      padding:20px 26px;
+      color:#fff;
+      margin-bottom:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .welcome-card h2 { font-family: var(--font-serif); font-size:1.4rem; margin-bottom:3px; }
+    .welcome-card p  { opacity:.82; font-size:.84rem; }
+    .welcome-card .emoji { font-size:2.4rem; }
+
+    /* Course roster panel */
+    .roster-panel {
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      margin-top:20px;
+      display:none;
+    }
+    .roster-panel.open { display:block; }
+    .roster-header {
+      background:linear-gradient(135deg,var(--primary) 0%,#7d3bbd 100%);
+      color:#fff;
+      padding:16px 22px;
+      border-radius:12px 12px 0 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .roster-header h3 { font-size:1rem; }
+
+    /* Inline grade form */
+    .grade-form-row td { padding:6px 8px !important; background:#f8f4ff !important; }
+    .grade-input {
+      width:80px;
+      padding:5px 8px;
+      border:1px solid var(--border);
+      border-radius:6px;
+      font-size:.82rem;
+    }
+    .remarks-input {
+      width:160px;
+      padding:5px 8px;
+      border:1px solid var(--border);
+      border-radius:6px;
+      font-size:.82rem;
+    }
+
+    .score-pill {
+      display:inline-block;
+      padding:3px 10px;
+      border-radius:20px;
+      font-weight:700;
+      font-size:.8rem;
+    }
+    .sp-a { background:#e8f5e9; color:#2e7d32; }
+    .sp-b { background:#e3f2fd; color:#0277bd; }
+    .sp-c { background:#fff8e1; color:#e65100; }
+    .sp-d { background:#ffebee; color:#c62828; }
+    .sp-f { background:#fce4ec; color:#880e4f; }
+    .sp-ng{ background:#f5f5f5; color:#9e9e9e; }
+  </style>
+</head>
+<body>
+<div id="toast-container"></div>
+
+<header class="portal-topbar">
+  <div class="brand">🏛️ CampusHub <span>Faculty Portal</span></div>
+  <div class="user-info">
+    <span class="username-badge">👨‍🏫 {{ username }}</span>
+    <a href="/logout" class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff;border:none;">🚪 Logout</a>
+  </div>
+</header>
+
+<nav class="portal-nav">
+  <div class="portal-nav-item active" data-tab="tab-overview">📊 Overview</div>
+  <div class="portal-nav-item" data-tab="tab-courses">📚 My Courses</div>
+  <div class="portal-nav-item" data-tab="tab-roster">👥 Student Roster &amp; Grading</div>
+  <div class="portal-nav-item" data-tab="tab-attendance">📅 Mark Attendance</div>
+  <div class="portal-nav-item" data-tab="tab-nosql">📢 Announcements &amp; Feedback (NoSQL)</div>
+</nav>
+
+<div class="portal-content">
+
+  <!-- ── Overview ── -->
+  <div id="tab-overview" class="portal-section active">
+    <div class="welcome-card">
+      <div>
+        <h2 id="f-welcome-name">Welcome!</h2>
+        <p id="f-dept">Loading profile…</p>
+      </div>
+      <div class="emoji">👨‍🏫</div>
+    </div>
+
+    <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
+      <div class="stat-card">
+        <div class="stat-icon blue">📚</div>
+        <div class="stat-info">
+          <div class="label">Courses Assigned</div>
+          <div class="value" id="f-stat-courses">—</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">👩‍🎓</div>
+        <div class="stat-info">
+          <div class="label">Active Students</div>
+          <div class="value" id="f-stat-students">—</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon purple">📝</div>
+        <div class="stat-info">
+          <div class="label">Grades Entered</div>
+          <div class="value" id="f-stat-graded">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:8px;">
+      <div class="card-header"><h3>📚 My Courses at a Glance</h3></div>
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Code</th><th>Course Name</th><th>Department</th><th>Credits</th><th>Enrolled</th><th>Capacity</th><th>Quick Actions</th></tr>
+            </thead>
+            <tbody id="f-overview-courses">
+              <tr><td colspan="7" class="loading-row"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── My Courses ── -->
+  <div id="tab-courses" class="portal-section">
+    <div class="section-header" style="margin-bottom:20px;">
+      <h2>My Assigned Courses</h2>
+      <button class="btn btn-outline btn-sm" onclick="loadFacultyCourses()">🔄 Refresh</button>
+    </div>
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th><th>Course Name</th><th>Department</th>
+              <th>Credits</th><th>Enrolled</th><th>Capacity</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="f-courses-tbody">
+            <tr><td colspan="7" class="loading-row"><div class="spinner"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Student Roster & Grading ── -->
+  <div id="tab-roster" class="portal-section">
+    <div class="section-header" style="margin-bottom:16px;">
+      <h2>Student Roster &amp; Grading</h2>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-body">
+        <label class="form-label" style="margin-bottom:8px;">Select a course to view students &amp; enter grades:</label>
+        <select id="f-roster-select" class="form-control" style="max-width:420px;" onchange="loadRoster(this.value)">
+          <option value="">— Choose a course —</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="f-roster-panel" class="roster-panel">
+      <div class="roster-header">
+        <h3 id="f-roster-title">Students</h3>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff;border:none;" onclick="loadRoster(document.getElementById('f-roster-select').value)">🔄 Refresh</button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th><th>Email</th><th>Year</th><th>Enrollment</th>
+              <th>Current Score</th><th>Grade</th><th>Remarks</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="f-roster-tbody">
+            <tr><td colspan="8" class="empty-row">Select a course above</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Mark Attendance ── -->
+  <div id="tab-attendance" class="portal-section">
+    <div class="section-header" style="margin-bottom:16px;">
+      <div>
+        <h2>Daily Attendance Management</h2>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Select a course and session date to mark or update student attendance.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-body" style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;">
+        <div style="flex:1;min-width:240px;">
+          <label class="form-label">Course</label>
+          <select id="f-att-course" class="form-control" onchange="loadAttendanceSheet()">
+            <option value="">— Choose a course —</option>
+          </select>
+        </div>
+        <div style="min-width:180px;">
+          <label class="form-label">Session Date</label>
+          <input type="date" id="f-att-date" class="form-control" onchange="loadAttendanceSheet()" />
+        </div>
+        <div>
+          <button class="btn btn-outline" onclick="loadAttendanceSheet()">🔄 Load Sheet</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="f-att-panel" class="roster-panel">
+      <div class="roster-header">
+        <h3 id="f-att-title">Attendance Sheet</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-sm" style="background:rgba(255,255,255,.22);color:#fff;border:none;" onclick="markAllAttendance('Present')">✅ Mark All Present</button>
+          <button class="btn btn-sm" style="background:#fff;color:var(--primary);font-weight:700;border:none;" onclick="saveAttendanceSheet()">💾 Save Attendance</button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th><th>Email</th><th>Overall Attendance</th>
+              <th>Session Status</th><th>Session Remarks</th>
+            </tr>
+          </thead>
+          <tbody id="f-att-tbody">
+            <tr><td colspan="5" class="empty-row">Select a course above</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;">
+        <button class="btn btn-primary" onclick="saveAttendanceSheet()">💾 Save Attendance for Date</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Announcements & Course Feedback (MongoDB NoSQL) ── -->
+  <div id="tab-nosql" class="portal-section">
+    <div class="section-header" style="margin-bottom:16px;">
+      <div>
+        <h2>Course Announcements &amp; Student Feedback (MongoDB)</h2>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Publish course announcements and review student feedback documents stored in MongoDB.</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="loadFacultyNoSQLFeed()">🔄 Refresh</button>
+    </div>
+
+    <!-- Publish Announcement Card -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <h3>📢 Publish New Course Announcement</h3>
+        <span class="badge badge-info">🍃 MongoDB: course_announcements</span>
+      </div>
+      <div class="card-body">
+        <form id="f-ann-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Course <span class="required">*</span></label>
+              <select id="f-ann-course" class="form-select" required>
+                <option value="">— Select course —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select id="f-ann-priority" class="form-select">
+                <option value="Normal">Normal</option>
+                <option value="Important">Important</option>
+                <option value="Exam">Exam / Deadline</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Announcement Title <span class="required">*</span></label>
+              <input type="text" id="f-ann-title" class="form-control" placeholder="e.g. Midterm Syllabus &amp; Lab Schedule" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tags (comma-separated)</label>
+              <input type="text" id="f-ann-tags" class="form-control" placeholder="e.g. Midterm, Lab, Assignment" value="Lecture, Update" />
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Message <span class="required">*</span></label>
+              <textarea id="f-ann-message" class="form-control" placeholder="Write the announcement details for enrolled students…" required></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">📢 Publish to MongoDB</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="dashboard-bento">
+      <!-- Published Announcements -->
+      <div class="card">
+        <div class="card-header">
+          <h3>📢 My Published Announcements</h3>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Course</th><th>Announcement</th><th>Priority &amp; Tags</th><th>Action</th></tr>
+            </thead>
+            <tbody id="f-ann-tbody">
+              <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Student Course Feedback -->
+      <div class="card">
+        <div class="card-header">
+          <h3>⭐ Student Course Feedback &amp; Reviews</h3>
+          <span class="badge badge-info">🍃 MongoDB: course_feedback</span>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Course</th><th>Student</th><th>Rating</th><th>Feedback &amp; Tags</th></tr>
+            </thead>
+            <tbody id="f-fb-tbody">
+              <tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .portal-content -->
+
+<script src="/static/faculty.js"></script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+[
+  {
+    "course_id": 6,
+    "session_date": "2026-10-26",
+    "course_code": "CS304",
+    "course_name": "Engineering Physics",
+    "faculty_id": 1,
+    "summary": {
+      "total_students": 2,
+      "attended": 1,
+      "absent": 1,
+      "attendance_rate_pct": 50.0
+    },
+    "records": [
+      {
+        "enrollment_id": 21,
+        "status": "Absent",
+        "remarks": ""
+      },
+      {
+        "enrollment_id": 8,
+        "status": "Present",
+        "remarks": ""
+      }
+    ],
+    "updated_at": "2026-10-26T17:50:12",
+    "_id": "190893cf9d624569aec36b74"
+  },
+  {
+    "course_id": 5,
+    "session_date": "2026-10-24",
+    "course_code": "IT302",
+    "course_name": "Software Engineering",
+    "faculty_id": 5,
+    "summary": {
+      "total_students": 4,
+      "attended": 4,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 15,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 17,
+        "student_id": 3,
+        "student_name": "Kabir Khan",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 20,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 23,
+        "student_id": 5,
+        "student_name": "Ishaan Shah",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "05d2f6d89340433fa3ac7f5b"
+  },
+  {
+    "course_id": 5,
+    "session_date": "2026-10-22",
+    "course_code": "IT302",
+    "course_name": "Software Engineering",
+    "faculty_id": 5,
+    "summary": {
+      "total_students": 4,
+      "attended": 4,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 15,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 17,
+        "student_id": 3,
+        "student_name": "Kabir Khan",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 20,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 23,
+        "student_id": 5,
+        "student_name": "Ishaan Shah",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "36bd3a0cfa5b4fdb8f67dd1d"
+  },
+  {
+    "course_id": 4,
+    "session_date": "2026-10-24",
+    "course_code": "IT301",
+    "course_name": "Web Technologies",
+    "faculty_id": 4,
+    "summary": {
+      "total_students": 5,
+      "attended": 5,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 11,
+        "student_id": 1,
+        "student_name": "Aarav Singh",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 14,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 16,
+        "student_id": 3,
+        "student_name": "Kabir Khan",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 19,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 6,
+        "student_id": 5,
+        "student_name": "Ishaan Shah",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "6eca0cfde5874ddd9b442d56"
+  },
+  {
+    "course_id": 4,
+    "session_date": "2026-10-22",
+    "course_code": "IT301",
+    "course_name": "Web Technologies",
+    "faculty_id": 4,
+    "summary": {
+      "total_students": 5,
+      "attended": 5,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 11,
+        "student_id": 1,
+        "student_name": "Aarav Singh",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 14,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 16,
+        "student_id": 3,
+        "student_name": "Kabir Khan",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 19,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 6,
+        "student_id": 5,
+        "student_name": "Ishaan Shah",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "35865a7d741a4a319d6cc5df"
+  },
+  {
+    "course_id": 3,
+    "session_date": "2026-10-24",
+    "course_code": "MA101",
+    "course_name": "Engineering Mathematics",
+    "faculty_id": 3,
+    "summary": {
+      "total_students": 4,
+      "attended": 4,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 4,
+        "student_id": 3,
+        "student_name": "Kabir Khan",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 5,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 10,
+        "student_id": 1,
+        "student_name": "Aarav Singh",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 13,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "ccc414d58264402c899601fe"
+  },
+  {
+    "course_id": 3,
+    "session_date": "2026-10-22",
+    "course_code": "MA101",
+    "course_name": "Engineering Mathematics",
+    "faculty_id": 3,
+    "summary": {
+      "total_students": 4,
+      "attended": 4,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 4,
+        "student_id": 3,
+        "student_name": "Kabir Khan",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 5,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 10,
+        "student_id": 1,
+        "student_name": "Aarav Singh",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 13,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "1aad7f45b55644f896d05c8e"
+  },
+  {
+    "course_id": 2,
+    "session_date": "2026-10-24",
+    "course_code": "CS202",
+    "course_name": "Data Structures",
+    "faculty_id": 2,
+    "summary": {
+      "total_students": 3,
+      "attended": 3,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 2,
+        "student_id": 1,
+        "student_name": "Aarav Singh",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 9,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 12,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "533632c3c87e47aaad41bc05"
+  },
+  {
+    "course_id": 2,
+    "session_date": "2026-10-22",
+    "course_code": "CS202",
+    "course_name": "Data Structures",
+    "faculty_id": 2,
+    "summary": {
+      "total_students": 3,
+      "attended": 3,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 2,
+        "student_id": 1,
+        "student_name": "Aarav Singh",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 9,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 12,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "ccb3a3ea72ac4b2998b456d4"
+  },
+  {
+    "course_id": 1,
+    "session_date": "2026-10-24",
+    "course_code": "CS201",
+    "course_name": "Database Management Systems",
+    "faculty_id": 1,
+    "summary": {
+      "total_students": 3,
+      "attended": 3,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 1,
+        "student_id": 1,
+        "student_name": "Aarav Singh",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 3,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 7,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "f1af6f6430ff437db99585ad"
+  },
+  {
+    "course_id": 1,
+    "session_date": "2026-10-22",
+    "course_code": "CS201",
+    "course_name": "Database Management Systems",
+    "faculty_id": 1,
+    "summary": {
+      "total_students": 3,
+      "attended": 3,
+      "absent": 0,
+      "attendance_rate_pct": 100.0
+    },
+    "records": [
+      {
+        "enrollment_id": 1,
+        "student_id": 1,
+        "student_name": "Aarav Singh",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 3,
+        "student_id": 2,
+        "student_name": "Diya Patel",
+        "status": "Present",
+        "remarks": null
+      },
+      {
+        "enrollment_id": 7,
+        "student_id": 4,
+        "student_name": "Anaya Gupta",
+        "status": "Present",
+        "remarks": null
+      }
+    ],
+    "updated_at": "2026-10-26T17:28:27",
+    "_id": "e4bf2a3c49cc4014967bc5c3"
+  }
+]

@@ -1,0 +1,115 @@
+[
+  {
+    "_id": "ad6d4c1bc223423c9cea9e50",
+    "course_id": 1,
+    "course_code": "CS201",
+    "course_name": "Database Management Systems",
+    "faculty_id": 1,
+    "faculty_name": "Dr. Aditi Sharma",
+    "title": "Endterm Practical Date 29th October 2026",
+    "message": "Syllabus is all lab experiments",
+    "priority": "Exam",
+    "tags": [
+      "Exam",
+      "Update"
+    ],
+    "created_at": "2026-10-26T17:51:46"
+  },
+  {
+    "_id": "b7a865d45c1b43c089904351",
+    "course_id": 6,
+    "course_code": "CS304",
+    "course_name": "Engineering Physics",
+    "faculty_id": 1,
+    "faculty_name": "Dr. Aditi Sharma",
+    "title": "Final Project Presentation Schedule",
+    "message": "Live project demonstrations will be evaluated on both relational schema integrity and NoSQL collection design.",
+    "priority": "Exam",
+    "tags": [
+      "Final Demo",
+      "Evaluation"
+    ],
+    "created_at": "2026-10-26T17:28:27"
+  },
+  {
+    "_id": "f714096fe4084a11899eb395",
+    "course_id": 5,
+    "course_code": "IT302",
+    "course_name": "Software Engineering",
+    "faculty_id": 5,
+    "faculty_name": "Dr. Neha Kapoor",
+    "title": "Updated Lecture Slides & Practice Problem Set",
+    "message": "Slides for Week 7\u20139 and practice problem sets have been uploaded to the course repository.",
+    "priority": "Normal",
+    "tags": [
+      "Slides",
+      "Study Material"
+    ],
+    "created_at": "2026-10-26T17:28:27"
+  },
+  {
+    "_id": "afc26454cffd45bd938d15d1",
+    "course_id": 4,
+    "course_code": "IT301",
+    "course_name": "Web Technologies",
+    "faculty_id": 4,
+    "faculty_name": "Dr. Vikram Mehta",
+    "title": "Project Milestone 2: Triggers & Stored Views",
+    "message": "Ensure your AFTER UPDATE and AFTER DELETE audit triggers are tested with sample grade updates.",
+    "priority": "Important",
+    "tags": [
+      "Project",
+      "Triggers"
+    ],
+    "created_at": "2026-10-26T17:28:27"
+  },
+  {
+    "_id": "24ad6d5ced544767b3681e9e",
+    "course_id": 3,
+    "course_code": "MA101",
+    "course_name": "Engineering Mathematics",
+    "faculty_id": 3,
+    "faculty_name": "Dr. Neha Verma",
+    "title": "Guest Lecture: Polyglot Persistence in FinTech",
+    "message": "Mandatory seminar in Auditorium B on how banks combine relational ACID ledgers with NoSQL document stores.",
+    "priority": "Normal",
+    "tags": [
+      "Seminar",
+      "Industry"
+    ],
+    "created_at": "2026-10-26T17:28:27"
+  },
+  {
+    "_id": "f32810d0b6474d99b6ba9616",
+    "course_id": 2,
+    "course_code": "CS202",
+    "course_name": "Data Structures",
+    "faculty_id": 2,
+    "faculty_name": "Prof. Rahul Mehta",
+    "title": "Lab 4 Submission: Indexing & Query Optimization",
+    "message": "Upload your EXPLAIN query execution plans and composite index benchmarks by Friday 5:00 PM.",
+    "priority": "Important",
+    "tags": [
+      "Lab",
+      "Assignment"
+    ],
+    "created_at": "2026-10-26T17:28:27"
+  },
+  {
+    "_id": "08d788d3489745f4b321a083",
+    "course_id": 1,
+    "course_code": "CS201",
+    "course_name": "Database Management Systems",
+    "faculty_id": 1,
+    "faculty_name": "Dr. Aditi Sharma",
+    "title": "Midterm Practical Exam & Normalization Viva",
+    "message": "Please review 3NF/BCNF decomposition, SQL transactions (SELECT FOR UPDATE), and MongoDB document modeling before next week's viva.",
+    "priority": "Exam",
+    "tags": [
+      "Midterm",
+      "Viva",
+      "RDBMS + NoSQL"
+    ],
+    "created_at": "2026-10-26T17:28:27"
+  }
+]
